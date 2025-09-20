@@ -1,0 +1,97 @@
+%YAML 1.2
+---
+name: Atopile
+file_extensions:
+  - atp
+  - atopile
+scope: source.atopile
+version: 0.0.1
+
+contexts:
+  main:
+    # Module names after 'component'
+    - match: '(?<=\bcomponent\s)([A-Za-z_][A-Za-z0-9_]*)'
+      scope: entity.name.module.atopile
+
+    # Keywords
+    - match: \b(import|component|trait|signal|new|assert|set_address|capacity|voltage|power|lcsc_id|manufacturer|mpn|package|exclude_from_bom|override_net_name|required)\b
+      scope: keyword.control.atopile
+
+    # Operators
+    - match: '\b(within)\b'
+      scope: keyword.operator.atopile
+    - match: '::'
+      scope: keyword.operator.namespace.atopile
+    - match: '~>'
+      scope: keyword.operator.binding.atopile
+    - match: '~'
+      scope: keyword.operator.assignment.atopile
+    - match: '='
+      scope: keyword.operator.assignment.atopile
+    - match: '\+/-'
+      scope: keyword.operator.tolerance.atopile
+    - match: '[\+\-\*/]'
+      scope: keyword.operator.math.atopile
+
+    # Brackets
+    - match: '\['
+      scope: punctuation.definition.index.begin.atopile
+      push: bracket-index
+
+    # Attribute blocks
+    - match: '<'
+      scope: punctuation.definition.parameters.begin.atopile
+      push: attribute-block
+
+    # Function calls
+    - match: '([A-Za-z_][A-Za-z0-9_]*)\s*(?=\()'
+      scope: entity.name.function.atopile
+
+    # Strings
+    - match: '"""'
+      scope: string.quoted.docstring.atopile
+      push: triple-quoted-string
+    - match: '"'
+      scope: punctuation.definition.string.begin.atopile
+      push: double-quoted-string
+
+    # Comments
+    - match: '#.*$'
+      scope: comment.line.number-sign.atopile
+
+    # Numbers with units using captures
+    - match: '\b([0-9]+(?:\.[0-9]+)?)\s*(V|mAh|degC|MHz|ppm|pF|ohm|kohm|kbit|kHz|Ah|%)'
+      captures:
+        1: constant.numeric.atopile
+        2: keyword.unit.atopile
+
+    # Generic identifiers
+    - match: '\b[A-Za-z_][A-Za-z0-9_]*\b'
+      scope: variable.atopile
+
+  double-quoted-string:
+    - meta_scope: string.quoted.double.atopile
+    - match: '"'
+      scope: punctuation.definition.string.end.atopile
+      pop: true
+
+  triple-quoted-string:
+    - meta_scope: string.quoted.triple.atopile
+    - match: '"""'
+      scope: punctuation.definition.string.end.atopile
+      pop: true
+
+  attribute-block:
+    - meta_scope: meta.attribute-block.atopile
+    - match: '>'
+      scope: punctuation.definition.parameters.end.atopile
+      pop: true
+    - match: '"'
+      scope: punctuation.definition.string.begin.atopile
+      push: double-quoted-string
+
+  bracket-index:
+    - meta_scope: meta.index.atopile
+    - match: '\]'
+      scope: punctuation.definition.index.end.atopile
+      pop: true
