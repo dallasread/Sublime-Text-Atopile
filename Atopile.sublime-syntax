@@ -10,11 +10,11 @@ version: 0.0.1
 contexts:
   main:
     # Module names after 'component'
-    - match: '(?<=\bcomponent\s)([A-Za-z_][A-Za-z0-9_]*)'
+    - match: '(?<=\bcomponent|module\s)([A-Za-z_][A-Za-z0-9_]*)'
       scope: entity.name.module.atopile
 
     # Keywords
-    - match: \b(import|component|trait|signal|new|assert|set_address|capacity|voltage|power|lcsc_id|manufacturer|mpn|package|exclude_from_bom|override_net_name|required)\b
+    - match: \b(import|component|module|trait|signal|new|assert|set_address|capacity|voltage|power|lcsc_id|manufacturer|mpn|package|exclude_from_bom|override_net_name|required)\b
       scope: keyword.control.atopile
 
     # Operators
