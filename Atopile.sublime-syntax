@@ -43,9 +43,9 @@ contexts:
       scope: punctuation.definition.parameters.begin.atopile
       push: attribute-block
 
-    # Function calls
-    - match: '([A-Za-z_][A-Za-z0-9_]*)\s*(?=\()'
-      scope: entity.name.function.atopile
+    # 'new' component/type names, with optional parentheses
+    - match: '(?<=\bnew\s)([A-Za-z_][A-Za-z0-9_]*)(\s*\(\))?'
+      scope: entity.name.type.atopile
 
     # Strings
     - match: '"""'
